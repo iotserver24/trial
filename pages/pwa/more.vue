@@ -21,24 +21,26 @@
           />
         </template>
       </v-list-item>
-      <v-list-item
-        title="About us"
-        target="blank"
-        href="/about"
-      />
+      <v-list-item title="About us" target="blank" href="/about" />
       <v-list-item
         title="YouTube"
         target="blank"
         href="https://www.youtube.com/@R3AP3Redit/featured"
       />
+      <!-- Adding this closing tag to properly close the v-list-item -->
+      <v-list-item
+        title="Donate"
+        target="blank"
+        href="https://liberapay.com/R3AP3R_editz/donate"
+      >
+        <template #prepend>
+          <img
+            alt="Donate us to keep it running"
+            src="https://liberapay.com/assets/widgets/donate.svg"
+            style="display: flex; width: 100px; height: 100%"
+          />
+        </template>
+      </v-list-item>
     </v-list>
-
-    <v-list-item
-        title="YouTube"
-        target="blank" />
-          <script src="https://liberapay.com/R3AP3R_editz/widgets/button.js"></script>
-          <noscript><a href="https://liberapay.com/R3AP3R_editz/donate"><img alt="Donate us to keep it running" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
-    
-     </v-list>
   </v-container>
 </template>
