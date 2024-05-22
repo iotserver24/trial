@@ -316,8 +316,8 @@ if (query.q || query.genres || query.tags) {
           v-for="item in searchResults.results"
           v-else
           :key="item.id"
-          :to="'/anime/' + item.id"
-        >
+          :to="'/pwa/anime/' + item.id"  
+        > <!-- added /pwa -->
           <template #prepend>
             <img
               v-if="item.coverImage.medium"
