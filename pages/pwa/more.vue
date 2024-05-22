@@ -13,7 +13,7 @@
       <h1>More</h1>
     </div>
     <v-list lines="two">
-      <v-list-item title="AnimeVerse app" subtitle="Version 15.4 (Nuxt 3)">
+      <v-list-item title="AnimeVerse app" subtitle="Version 15.4">
         <template #prepend>
           <img
             src="/icon.png"
