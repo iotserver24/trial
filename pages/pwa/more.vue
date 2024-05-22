@@ -32,5 +32,13 @@
         href="https://www.youtube.com/@R3AP3Redit/featured"
       />
     </v-list>
+
+    <v-list-item
+        title="YouTube"
+        target="blank" />
+          <script src="https://liberapay.com/R3AP3R_editz/widgets/button.js"></script>
+          <noscript><a href="https://liberapay.com/R3AP3R_editz/donate"><img alt="Donate us to keep it running" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
+    
+     </v-list>
   </v-container>
 </template>
