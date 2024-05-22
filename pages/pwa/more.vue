@@ -13,7 +13,7 @@
       <h1>More</h1>
     </div>
     <v-list lines="two">
-      <v-list-item title="amvstrm's PWA mode" subtitle="Version amvN3 (Nuxt 3)">
+      <v-list-item title="AnimeVerse app" subtitle="Version 15.4 (Nuxt 3)">
         <template #prepend>
           <img
             src="/icon.png"
@@ -22,33 +22,15 @@
         </template>
       </v-list-item>
       <v-list-item
-        title="amvstrm"
-        :subtitle="new Date().getFullYear() + ' © amvstrm'"
+        title="About us"
+        target="blank"
+        href="/about"
       />
-    </v-list>
-    <v-divider class="my-4"></v-divider>
-    <v-list lines="two">
-      <v-list-item title="Web Mode" append-icon="mdi-web" to="/"></v-list-item>
-      <v-list-item title="About us" target="blank" href="/about" />
-      <v-list-item title="Privacy Policy" target="blank" href="/privacy" />
       <v-list-item
-        title="Help"
+        title="YouTube"
         target="blank"
-        href="https://docs.amvstr.ml/help"
-      >
-        <template #append>
-          <v-icon icon="mdi-help" />
-        </template>
-      </v-list-item>
-      <v-list-item
-        title="Github"
-        target="blank"
-        href="https://github.com/amvstrm/amvstrm"
-      >
-        <template #append>
-          <v-icon icon="mdi-github" />
-        </template>
-      </v-list-item>
+        href="https://www.youtube.com/@R3AP3Redit/featured"
+      />
     </v-list>
   </v-container>
 </template>
