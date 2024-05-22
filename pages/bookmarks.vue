@@ -1,5 +1,5 @@
 <script setup>
-import { useStorage } from "@vueuse/core";
+import { useStorage, useFetch } from "@vueuse/core";
 
 useSeoMeta({
   ogTitle: "Bookmarker",
@@ -51,76 +51,6 @@ if (cfg.value.enabled) {
 } else {
   bk_data.value = bk_state.value;
 }
-
-const saveAlltoDB = async () => {
-  await useFetch("/api/saveToDB?mutate=saved_all", {
-    method: "POST",
-    headers: {
-      "x-space-collection": cfg.value.deta_collection_key,
-    },
-    body: {
-      bookmarks: bk_state.value,
-      plyr_data: t_d_state.value,
-      latest_watch: swatch_d_state.value
-    },
-  });
-
-  app_dialog.value = true;
-  dialog_title.value = "Success";
-  dialog_text.value = "Saved to cloud successfully";
-};
-
-const checkStatus = async () => {
-  if (cfg_cloud_enable.value == true && !cfg_deta_clct_key.value) {
-    alert("Please enter a valid Deta project key");
-    cfg_dialog.value = true;
-  } else {
-    if (
-      confirm(
-        "This might override the local bookmarked data, Do you want to proceed?"
-      ) == true
-    ) {
-      cfg.value.deta_collection_key = cfg_deta_clct_key.value;
-      cfg.value.enabled = cfg_cloud_enable.value;
-      cfg_dialog.value = false;
-      location.reload();
-
-      bk_state.value = data.value?.data?.app_bookmark_data;
-      t_d_state.value = data.value?.data?.app_player_data;
-      swatch_d_state.value = data.value?.data.app_user_last_data;
-    } else {
-      cfg_dialog.value = false;
-    }
-  }
-};
-
-const uuid = (length) => {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-};
-
-const validateImportedData = (importedData, expectedBmkid) => {
-  try {
-    const data = JSON.parse(importedData);
-    if (data.bmkid !== expectedBmkid) {
-      throw new Error(
-        `BMKID mismatch: expected ${expectedBmkid}, got ${data.bmkid}`
-      );
-    }
-    return data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
-
-const app_set_id = uuid(6);
 
 const importData = async () => {
   const fileInput = document.createElement("input");
@@ -185,8 +115,68 @@ const clearData = () => {
   dialog_title.value = "Success";
   dialog_text.value = "Data cleared successfully";
 };
+
+const uuid = (length) => {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+
+const validateImportedData = (importedData, expectedBmkid) => {
+  try {
+    const data = JSON.parse(importedData);
+    if (data.bmkid !== expectedBmkid) {
+      throw new Error(
+        `BMKID mismatch: expected ${expectedBmkid}, got ${data.bmkid}`
+      );
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const app_set_id = uuid(6);
+
+const checkStatus = async () => {
+  if (cfg_cloud_enable.value == true && !cfg_deta_clct_key.value) {
+    alert("Please enter a valid Deta project key");
+    cfg_dialog.value = true;
+  } else {
+    if (
+      confirm(
+        "This might override the local bookmarked data, Do you want to proceed?"
+      ) == true
+    ) {
+      cfg.value.deta_collection_key = cfg_deta_clct_key.value;
+      cfg.value.enabled = cfg_cloud_enable.value;
+      cfg_dialog.value = false;
+      location.reload();
+
+      bk_state.value = data.value?.data?.app_bookmark_data;
+      t_d_state.value = data.value?.data?.app_player_data;
+      swatch_d_state.value = data.value?.data.app_user_last_data;
+    } else {
+      cfg_dialog.value = false;
+    }
+  }
+};
 </script>
 <template>
+  <v-breadcrumbs>
+    <template #prepend>
+      <v-icon size="small" icon="mdi-home"></v-icon>
+    </template>
+    <v-breadcrumbs-item title="Home" to="/pwa" />
+    <v-breadcrumbs-divider />
+    <v-breadcrumbs-item title="Bookmarker" />
+  </v-breadcrumbs>
   <v-container>
     <ClientOnly>
       <v-dialog v-model="app_dialog" eager scrim="#191919" width="auto">
@@ -244,11 +234,6 @@ const clearData = () => {
             </v-list-item>
           </v-list>
           <v-card-actions>
-            <v-btn
-              href="https://docs.amvstr.me/help/bookmark#cloud-integration"
-            >
-              Help ?
-            </v-btn>
             <v-spacer></v-spacer>
             <v-btn @click="checkStatus"> Ok </v-btn>
           </v-card-actions>
@@ -266,19 +251,9 @@ const clearData = () => {
             <v-btn v-bind="props" icon="mdi-chevron-down-box" variant="text" />
           </template>
           <v-list>
-            <v-list-item
-              title="Save All (Cloud)"
-              :disabled="!cfg.enabled"
-              @click="saveAlltoDB"
-            />
             <v-list-item title="Import" @click="importData" />
             <v-list-item title="Export" @click="exportData" />
             <v-list-item title="Clear All" @click="clear_dia = true" />
-            <v-list-item title="Configure Cloud" @click="cfg_dialog = true" />
-            <v-list-item
-              title="Help"
-              href="https://docs.amvstr.me/help/bookmark"
-            />
           </v-list>
         </v-menu>
       </v-col>
@@ -300,7 +275,7 @@ const clearData = () => {
           :anime-color="d.color"
           :year="d.year"
           :type="d.type"
-          :status="d?.status"
+          :status="d.status"
         />
       </div>
     </div>
