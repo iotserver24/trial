@@ -349,6 +349,20 @@ export default {
   </div>
   <v-container v-else>
     <v-row>
+      <v-col cols="12" style="padding: 0">
+        <v-breadcrumbs>
+          <template #prepend>
+            <v-icon size="small" icon="mdi-home"></v-icon>
+          </template>
+          <v-breadcrumbs-item title="Home" to="/pwa" />
+          <v-breadcrumbs-divider />
+          <v-breadcrumbs-item :title="getID" :to="'/pwa/anime/' + getID" />
+          <v-breadcrumbs-divider />
+          <v-breadcrumbs-item
+            :title="'Episode ' + getGogoID.split('-episode-')[1]"
+          />
+        </v-breadcrumbs>
+      </v-col>
       <v-col cols="12" lg="8">
         <ClientOnly>
           <VideoPlayer
@@ -356,7 +370,7 @@ export default {
             :option="{
               id: useRoute().params.id || '',
               url: strm.stream.multi.main.url,
-              poster: anime.bannerImage || anime.coverImage.large,
+              poster: anime.coverImage.large,
               highlight: skipTimeHighlight(),
             }"
             :vtt="strm.stream?.tracks?.file"
@@ -395,7 +409,7 @@ export default {
           ></iframe>
         </ClientOnly>
       </v-col>
-      <v-col>
+      <v-col cols="">
         <v-card class="epinf_card">
           <div class="pa-4 d-flex justify-space-between">
             <div style="flex: 1">
@@ -496,7 +510,7 @@ export default {
               v-for="(epitm, i) in ep.episodes"
               v-else
               :key="i"
-              :to="'/watch/' + getID + '-' + epitm.id"
+              :to="'/pwa/watch/' + getID + '-' + epitm.id"
             >
               <v-list-item-title>{{ epitm.title }}</v-list-item-title>
               <v-list-item-subtitle>
@@ -504,14 +518,6 @@ export default {
               </v-list-item-subtitle>
             </v-list-item>
           </v-list>
-        </v-card>
-      </v-col>
-      <v-col v-if="env.public.disqus_id" cols="12">
-        <v-card id="comment">
-          <v-card-title>Comment</v-card-title>
-          <div class="pa-10">
-            <DisqusComments :identifier="useRoute().fullPath" />
-          </div>
         </v-card>
       </v-col>
     </v-row>
