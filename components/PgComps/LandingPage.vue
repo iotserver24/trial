@@ -78,12 +78,12 @@ const {
             />
             <div class="pt-2">
               <v-btn
-                :to="'/anime/' + item.id"
+                :to="'/pwa/anime/' + item.id"     
                 :color="
                   item.coverImage.color ? item.coverImage.color : 'transparent'
                 "
                 append-icon="mdi-open-in-new"
-              >
+              >  <!-- added /pwa -->
                 Read more
               </v-btn>
             </div>
