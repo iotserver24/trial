@@ -2,22 +2,7 @@
 import { useStorage } from "@vueuse/core";
 const env = useRuntimeConfig();
 
-// const setHistory = ref();
-
 const history_state = useStorage("site-watch", {});
-// const get_key = useStorage("cloud-cfg", {});
-
-// if (get_key.value.enabled) {
-//   const { data } = await useFetch('/api/getData', {
-//     method: 'GET',
-//     headers: {
-//       'x-space-collection': get_key.value.deta_collection_key
-//     },
-//   })
-//   setHistory.value = data.value.data.app_user_last_data
-// } else {
-//   setHistory.value = history_state.value
-// }
 
 const {
   data: trendingData,
@@ -78,12 +63,10 @@ const {
             />
             <div class="pt-2">
               <v-btn
-                :to="'/pwa/anime/' + item.id"     
-                :color="
-                  item.coverImage.color ? item.coverImage.color : 'transparent'
-                "
+                :to="'/pwa/anime/' + item.id"
+                :color="item.coverImage.color ? item.coverImage.color : 'transparent'"
                 append-icon="mdi-open-in-new"
-              >  <!-- added /pwa -->
+              >
                 Read more
               </v-btn>
             </div>
@@ -100,9 +83,7 @@ const {
           class="mt-4"
           icon="mdi-history"
           title="Continue Watching : "
-          :text="`${history_state?.latest_anime_watched?.title} Episode ${
-            history_state?.latest_anime_watched?.curr_ep
-          } ${history_state?.latest_anime_watched?.isDub ? 'Dub' : 'Sub'}`"
+          :text="`${history_state?.latest_anime_watched?.title} Episode ${history_state?.latest_anime_watched?.curr_ep} ${history_state?.latest_anime_watched?.isDub ? 'Dub' : 'Sub'}`"
           closable
         >
           <template #default>
@@ -123,8 +104,7 @@ const {
       </div>
     </ClientOnly>
   </v-container>
-  <!-- DESKTOP DEVICE -->
-  <v-container class="d-lg-block d-sm-none d-none" fluid>
+  <v-container fluid>
     <v-col>
       <h1>Trending Anime</h1>
       <div v-if="trpend" class="loadingBlock">
@@ -203,75 +183,6 @@ const {
         </div>
       </v-container>
     </v-col>
-  </v-container>
-  <!-- MOBILE DEVICE -->
-  <v-container class="d-lg-none d-sm-block d-xs mb-5" fluid>
-    <h2>Trending Anime</h2>
-    <div v-if="trpend" class="loadingBlock">
-      <v-progress-circular :size="45" indeterminate />
-    </div>
-    <div v-else-if="trenderr">
-      <v-alert
-        dense
-        type="error"
-        title="Error"
-        text="Error loading trending anime!"
-      />
-      <v-btn @click="trenddataRefresh()">
-        Reload?
-        <v-icon>mdi-reload</v-icon>
-      </v-btn>
-    </div>
-    <v-row v-else>
-      <v-col class="media-scrolling">
-        <div v-for="d in trendingData?.results" :key="d.id">
-          <AnimeCard
-            :id="d.id"
-            :title="d.title.userPreferred"
-            :imgsrc="d.coverImage.large"
-            :imgalt="d.id"
-            :anime-color="d.coverImage.color"
-            :year="d.seasonYear"
-            :type="d.format"
-            :total-ep="d.episodes"
-            :status="d.status"
-          />
-        </div>
-      </v-col>
-    </v-row>
-    <h2 class="mt-10">Popular Anime</h2>
-    <div v-if="popend" class="loadingBlock">
-      <v-progress-circular :size="45" indeterminate />
-    </div>
-    <div v-else-if="poperr">
-      <v-alert
-        dense
-        type="error"
-        title="Error"
-        text="Error loading trending anime!"
-      />
-      <v-btn @click="popdataRefresh()">
-        Reload?
-        <v-icon>mdi-reload</v-icon>
-      </v-btn>
-    </div>
-    <v-row v-else>
-      <v-col class="media-scrolling">
-        <div v-for="d in popularData?.results" :key="d.id">
-          <AnimeCard
-            :id="d.id"
-            :title="d.title.userPreferred"
-            :imgsrc="d.coverImage.large"
-            :imgalt="d.id"
-            :anime-color="d.coverImage.color"
-            :year="d.seasonYear"
-            :type="d.format"
-            :total-ep="d.episodes"
-            :status="d.status"
-          />
-        </div>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
