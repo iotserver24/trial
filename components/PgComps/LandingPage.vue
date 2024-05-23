@@ -45,13 +45,19 @@ const {
 <template>
   <ClientOnly>
     <v-carousel
-      class="d-none d-md-block"
+    
       hide-delimiters
       progress="green"
       height="320px"
       :show-arrows="false"
       :cycle="true"
     >
+      <v-carousel-item
+      v-for="(item, i) in popularData?.results"
+      :key="i"
+      :src="item.bannerImage"
+      cover
+      >
       <v-carousel-item
         v-for="(item, i) in popularData?.results"
         :key="i"
