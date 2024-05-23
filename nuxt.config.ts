@@ -1,5 +1,3 @@
-import { defineNuxtConfig } from '@nuxtjs/composition-api';
-
 export default defineNuxtConfig({
   app: {
     head: {
@@ -15,7 +13,7 @@ export default defineNuxtConfig({
         {
           name: "keywords",
           content:
-            "AnimeVerse, anime streaming site, anime, free anime",
+            "AnimeVerse, AnimeVerse, amvstreaming, anime streaming site, anime, free anime",
         },
         { property: "og:type", content: "website" },
         { property: "og:url", content: "/" },
@@ -122,8 +120,8 @@ export default defineNuxtConfig({
       "icon.png",
     ],
     manifest: {
-      name: "amvstrm",
-      short_name: "amvstrm",
+      name: "AnimeVerse",
+      short_name: "AnimeVerse",
       start_url: "/pwa",
       display: "standalone",
       background_color: "#191919",
