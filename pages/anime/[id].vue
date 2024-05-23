@@ -3,7 +3,7 @@ const env = useRuntimeConfig();
 const episode_dialog = ref(false);
 const infotab = ref(null);
 const ep_tab = ref(null);
-const selectedProvider = ref("Gogoanime");
+const selectedProvider = ref("SUBBED");
 
 const {
   data: anime,
