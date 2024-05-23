@@ -473,18 +473,12 @@ export default {
                       ></v-checkbox>
                     </div>
                     <div v-else-if="switchplyr === 4">
-                      Recommend to use Adblocker and close the web inspect to
-                      watch it.
+                     this streaming server has lots of ads
+                      better to switch out
                     </div>
                   </div>
                   <v-card-actions>
-                    <v-btn
-                      prepend-icon="mdi-help"
-                      href="https://amvdocs.pages.dev/help/video-player"
-                      target="blank"
-                    >
-                      Player Help
-                    </v-btn>
+                  
                     <v-spacer />
                     <v-btn
                       icon="mdi-close"
