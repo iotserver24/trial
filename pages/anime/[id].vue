@@ -344,7 +344,7 @@ const stringInstring = '""';
                             lines="two"
                           >
                             <v-list-item
-                              title="Gogoanime"
+                              title="SUBBED"
                               :subtitle="
                                 anime?.id_provider.idGogo == ''
                                   ? 'Not available'
@@ -364,7 +364,7 @@ const stringInstring = '""';
                               </template>
                             </v-list-item>
                             <v-list-item
-                              title="Gogoanime (DUB)"
+                              title="DUBBED"
                               :subtitle="
                                 anime?.id_provider.idGogoDub == ''
                                   ? 'Not available'
