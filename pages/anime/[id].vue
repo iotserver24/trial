@@ -265,15 +265,15 @@ const stringInstring = '""';
                             <v-select
                               v-model="selectedProvider"
                               clearable
-                              label="Select streaming provider"
+                              label="Select SUB or DUB"
                               :items="[
-                                'Gogoanime',
-                                'Gogoanime (DUB)',
+                                'SUBBED',
+                                'DUBBED',
                               ]"
                               variant="solo"
                             ></v-select>
                             <v-list
-                              v-if="selectedProvider == 'Gogoanime'"
+                              v-if="selectedProvider == 'SUBBED'"
                               lines="two"
                               height="300px"
                             >
@@ -304,7 +304,7 @@ const stringInstring = '""';
                               />
                             </v-list>
                             <v-list
-                              v-else-if="selectedProvider == 'Gogoanime (DUB)'"
+                              v-else-if="selectedProvider == 'DUBBED'"
                               lines="two"
                               height="300px"
                             >
@@ -336,121 +336,7 @@ const stringInstring = '""';
                             </v-list>
                           </div>
                         </v-window-item>
-                        <v-window-item value="other">
-                          <v-list
-                            v-if="
-                              !anime.id_provider || anime.id_provider !== null
-                            "
-                            lines="two"
-                          >
-                            <v-list-item
-                              title="SUBBED"
-                              :subtitle="
-                                anime?.id_provider.idGogo == ''
-                                  ? 'Not available'
-                                  : anime?.id_provider.idGogo
-                              "
-                            >
-                              <template #append>
-                                <v-btn
-                                  icon="mdi-launch"
-                                  :href="
-                                    'https://gogoanimehd.io/category/' +
-                                    anime?.id_provider.idGogo
-                                  "
-                                  target="blank"
-                                  :disabled="anime?.id_provider.idGogo == ''"
-                                />
-                              </template>
-                            </v-list-item>
-                            <v-list-item
-                              title="DUBBED"
-                              :subtitle="
-                                anime?.id_provider.idGogoDub == ''
-                                  ? 'Not available'
-                                  : anime?.id_provider.idGogoDub
-                              "
-                            >
-                              <template #append>
-                                <v-btn
-                                  icon="mdi-launch"
-                                  :href="
-                                    'https://gogoanimehd.io/category/' +
-                                    anime?.id_provider.idGogo
-                                  "
-                                  target="blank"
-                                  :disabled="anime?.id_provider.idGogoDub == ''"
-                                />
-                              </template>
-                            </v-list-item>
-                            <v-list-item
-                              title="Zoro/Aniwatch.to"
-                              :subtitle="
-                                anime?.id_provider.idZoro == ''
-                                  ? 'Not available'
-                                  : anime?.id_provider.idZoro
-                              "
-                            >
-                              <template #append>
-                                <v-btn
-                                  icon="mdi-launch"
-                                  :href="
-                                    'https://aniwatch.to/' +
-                                    anime?.id_provider.idZoro
-                                  "
-                                  target="blank"
-                                  :disabled="anime?.id_provider.idZoro == ''"
-                                />
-                              </template>
-                            </v-list-item>
-                            <v-list-item
-                              title="9anime/Aniwave.to"
-                              :subtitle="
-                                anime?.id_provider.id9anime == ''
-                                  ? 'Not available'
-                                  : anime?.id_provider.id9anime
-                              "
-                            >
-                              <template #append>
-                                <v-btn
-                                  icon="mdi-launch"
-                                  :href="
-                                    'https://aniwave.to/watch/' +
-                                    anime?.id_provider.id9anime
-                                  "
-                                  target="blank"
-                                  :disabled="anime?.id_provider.id9anime == ''"
-                                />
-                              </template>
-                            </v-list-item>
-                            <v-list-item
-                              title="AnimePahe"
-                              :subtitle="
-                                anime?.id_provider.idPahe == ''
-                                  ? 'Not available'
-                                  : anime?.id_provider.idPahe
-                              "
-                            >
-                              <template #append>
-                                <v-btn
-                                  icon="mdi-launch"
-                                  :href="
-                                    'https://animepahe.ru/a/' +
-                                    anime?.id_provider.idPahe
-                                  "
-                                  target="blank"
-                                  :disabled="anime?.id_provider.idPahe == ''"
-                                />
-                              </template>
-                            </v-list-item>
-                          </v-list>
-                          <v-list v-else>
-                            <v-list-item
-                              title="No data"
-                              subtitle="Not available"
-                            />
-                          </v-list>
-                        </v-window-item>
+                      
                       </v-window>
                     </v-card-text>
                   </v-card>
