@@ -1,4 +1,6 @@
-
+<script setup>
+import { useStorage } from "@vueuse/core";
+const env = useRuntimeConfig();
 // const setHistory = ref();
 
 const history_state = useStorage("site-watch", {});
