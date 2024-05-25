@@ -83,7 +83,7 @@ const {
                   item.coverImage.color ? item.coverImage.color : 'transparent'
                 "
                 append-icon="mdi-open-in-new"
-              >  <!-- added /pwa -->
+              >
                 Read more
               </v-btn>
             </div>
@@ -93,7 +93,7 @@ const {
     </v-carousel>
   </ClientOnly>
   <v-container>
-    <SearchBar />
+    <!-- <SearchBar /> -->
     <ClientOnly>
       <div v-if="history_state?.latest_anime_watched">
         <v-alert
