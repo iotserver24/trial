@@ -25,7 +25,7 @@
       <v-list-item
         title="YouTube"
         target="blank"
-        href="https://www.youtube.com/@R3AP3Redit/featured"
+        href="https://youtube.com/@r3ap3redit?si=hhoYRR4invbBl-yF"
       />
       <!-- Adding this closing tag to properly close the v-list-item -->
       <v-list-item
