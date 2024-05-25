@@ -25,22 +25,22 @@
       <v-list-item
         title="YouTube"
         target="blank"
-        href="https://youtube.com/@r3ap3redit?si=hhoYRR4invbBl-yF"
+        href="https://youtube.com/@neko_729?si=MpB3qtRB3A_AkgAU"
       />
-      <!-- Adding this closing tag to properly close the v-list-item -->
-      <v-list-item
-        title="Donate"
+
+     <v-list-item
+        title="InstaGram"
         target="blank"
-        href="https://liberapay.com/R3AP3R_editz/donate"
-      >
-        <template #prepend>
-          <img
-            alt="Donate us to keep it running"
-            src="https://liberapay.com/assets/widgets/donate.svg"
-            style="display: flex; width: 100px; height: 100%"
-          />
-        </template>
-      </v-list-item>
+        href="https://www.instagram.com/kurumi__002?igsh=Y3BnejNiaHRsbjFh"
+      />
+<h5> built by: </h5>
+
+<v-list-item
+        title="R3AP3R editz"
+        target="blank"
+        href="https://youtube.com/@r3ap3redit?si=Vl78a8yIioBMj1Dz"
+      />
+
     </v-list>
   </v-container>
 </template>
