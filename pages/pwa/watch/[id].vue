@@ -70,7 +70,7 @@ useHead({
     : "amvstrm",
 });
 
-const { data: time2Skip } = useFetch(
+const { data: time2Skip } = await useFetch(
   `${env.public.API_URL}/api/v2/stream/skiptime/${getID}/${getEP}`,
   {
     cache: "force-cache",
@@ -78,7 +78,7 @@ const { data: time2Skip } = useFetch(
 );
 
 const skipTimeHighlight = () => {
-  if (time2Skip.value.found === true) {
+  if (time2Skip.value.found) {
     const output = [];
 
     if (time2Skip.value.results.op) {
@@ -86,7 +86,6 @@ const skipTimeHighlight = () => {
         text: "Opening start",
         time: time2Skip.value.results.op.interval.startTime,
       });
-
       output.push({
         text: "Opening end",
         time: time2Skip.value.results.op.interval.endTime,
@@ -98,7 +97,6 @@ const skipTimeHighlight = () => {
         text: "Ending start",
         time: time2Skip.value.results.ed.interval.startTime,
       });
-
       output.push({
         text: "Ending end",
         time: time2Skip.value.results.ed.interval.endTime,
@@ -157,7 +155,7 @@ if (get_key.value.enabled) {
 
 const savedTime = async () => {
   if (get_key.value.enabled) {
-    useFetch("/api/saveToDB?mutate=save_plyr_data", {
+    await useFetch("/api/saveToDB?mutate=save_plyr_data", {
       method: "POST",
       headers: {
         "x-space-collection": get_key.value.deta_collection_key,
@@ -172,9 +170,10 @@ const savedTime = async () => {
 };
 
 function getInstance(art) {
-  art.on("error", (error, reconnectTime) => {
+  art.on("error", () => {
     console.info("video error!");
   });
+
   art.setting.add({
     html: "Stream Source",
     width: 200,
@@ -182,12 +181,12 @@ function getInstance(art) {
     tooltip: useStorageState.value.s_source === "Main" ? "Main" : "Backup",
     selector: [
       {
-        default: useStorageState.value.s_source === "Main" ? true : false,
+        default: useStorageState.value.s_source === "Main",
         html: "Main",
         url: strm.value?.stream.multi.main.url,
       },
       {
-        default: useStorageState.value.s_source === "Backup" ? true : false,
+        default: useStorageState.value.s_source === "Backup",
         html: "Backup",
         url: strm.value?.stream.multi.backup.url,
       },
@@ -198,43 +197,49 @@ function getInstance(art) {
       return item.html;
     },
   });
+
   art.setting.add({
     html: "Auto Skip (OP&ED)",
     icon: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#ffffff" d="M6 9.83L8.17 12L6 14.17V9.83M4 5v14l7-7m9-7h-2v14h2m-7-9.17L15.17 12L13 14.17V9.83M11 5v14l7-7"/></svg>',
-    switch: useStorageState.value.s_autoskip === false ? false : true,
-    onSwitch: function (item) {
+    switch: useStorageState.value.s_autoskip,
+    onSwitch(item) {
       const nextState = !item.switch;
       useStorageState.value.s_autoskip = nextState;
       return nextState;
     },
   });
+
   art.setting.add({
     html: "Auto play",
     icon: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#ffffff" d="M16 18h2V6h-2M6 18l8.5-6L6 6v12Z"/></svg>',
-    switch: useStorageState.value.s_autonext === false ? false : true,
-    onSwitch: function (item) {
+    switch: useStorageState.value.s_autonext,
+    onSwitch(item) {
       const nextState = !item.switch;
       useStorageState.value.s_autonext = nextState;
       return nextState;
     },
   });
+
   art.on("ready", () => {
     if (useRoute().query.time) {
       art.seek = parseInt(useRoute().query.time) || 0;
     }
   });
+
   art.on("play", () => {
     savedTime();
     art.layers.show = false;
   });
+
   art.on("pause", () => {
     savedTime();
     art.layers.show = true;
   });
+
   art.on("video:timeupdate", () => {
     const currentTime = art.currentTime;
 
-    if (useStorageState.value.s_autoskip === true) {
+    if (useStorageState.value.s_autoskip) {
       if (
         time2Skip.value?.results.op &&
         currentTime >= time2Skip.value?.results.op.interval.startTime &&
@@ -249,8 +254,6 @@ function getInstance(art) {
       ) {
         art.seek = time2Skip.value?.results.ed.interval.endTime + 1;
         art.notice.show = "Skipped Ending";
-      } else {
-        return;
       }
     } else {
       if (
@@ -266,7 +269,7 @@ function getInstance(art) {
             name: "opening",
             position: "top",
             html: '<button class="app-skip-btn">Skip Opening</button>',
-            click: function () {
+            click() {
               art.seek = time2Skip.value?.results.op.interval.endTime;
               art.notice.show = "Skipped Opening";
             },
@@ -285,7 +288,7 @@ function getInstance(art) {
             name: "ending",
             position: "top",
             html: '<button class="app-skip-btn">Skip Ending</button>',
-            click: function () {
+            click() {
               art.seek = time2Skip.value?.results.ed.interval.endTime;
               art.notice.show = "Skipped Ending";
             },
@@ -301,15 +304,16 @@ function getInstance(art) {
       }
     }
   });
+
   art.on("video:ended", () => {
     savedTime();
-    if (useStorageState.value.s_autonext === true) {
+    if (useStorageState.value.s_autonext) {
       const currentEpisodeIndex = ep?.value.episodes.findIndex(
         (episode) => episode.id.split(`-episode-`)[1] === getEP
       );
-      const nextEpisode = ep?.value.episodes[currentEpisodeIndex - 1];
-      if (currentEpisodeIndex === ep?.value.episodes.length - 1) {
-        art.notice.show = "No more episode!";
+      const nextEpisode = ep?.value.episodes[currentEpisodeIndex + 1];
+      if (!nextEpisode) {
+        art.notice.show = "No more episodes!";
       } else {
         navigateTo(
           `/watch/${getID}-${getGogoID.split(`-episode-`)[0]}-episode-${
@@ -338,11 +342,12 @@ export default {
       switchplyr: 1,
     };
   },
-  unmounted: function () {
+  unmounted() {
     console.log(this.artPlayer);
   },
 };
 </script>
+
 <template>
   <div v-if="strmLoading" class="loadingBlock">
     <v-progress-circular :size="45" indeterminate />
@@ -409,7 +414,7 @@ export default {
           ></iframe>
         </ClientOnly>
       </v-col>
-      <v-col cols="">
+      <v-col cols="12" lg="4">
         <v-card class="epinf_card">
           <div class="pa-4 d-flex justify-space-between">
             <div style="flex: 1">
@@ -426,7 +431,7 @@ export default {
                 color="blue"
                 :href="'/download/' + useRoute().params.id"
                 icon="mdi-download"
-                target="blank"
+                target="_blank"
                 variant="plain"
               >
               </v-btn>
@@ -478,7 +483,6 @@ export default {
                     </div>
                   </div>
                   <v-card-actions>
-                  
                     <v-spacer />
                     <v-btn
                       icon="mdi-close"
@@ -517,6 +521,7 @@ export default {
     </v-row>
   </v-container>
 </template>
+
 <style>
 .loadingBlock {
   height: 100vh;
@@ -526,13 +531,13 @@ export default {
 
 .epinf_card {
   aspect-ratio: 9/7;
-  overflow-y: scroll !important;
+  overflow-y: auto !important;
 }
 
 @media (min-width: 1280px) {
   .epinf_card {
     aspect-ratio: 9/10.3;
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
   }
 }
 </style>
